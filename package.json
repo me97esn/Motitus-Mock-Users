@@ -1,0 +1,25 @@
+{
+  "name": "motitus-mock-users",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/me97esn/Motitus-Mock-Users.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/me97esn/Motitus-Mock-Users/issues"
+  },
+  "homepage": "https://github.com/me97esn/Motitus-Mock-Users#readme",
+  "dependencies": {
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "socket.io-client": "^1.7.2"
+  }
+}
