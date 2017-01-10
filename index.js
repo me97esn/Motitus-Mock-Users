@@ -1,7 +1,7 @@
 const rp = require('request-promise')
 const socketIO = require('socket.io-client')
 
-const numberOfUsers = 10
+const numberOfUsers = 50
 const latitude = 59.28832
 const longitude = 18.11787
 
@@ -34,7 +34,7 @@ for (var i = 0; i < numberOfUsers; i++) {
           location})
 
   }
-
+  // TODO just run one interval, so every user steps the same time
   rp({
       method: 'POST',
       uri: 'http://localhost:4000/api/user',
