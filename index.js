@@ -10,7 +10,7 @@ let port = 2000
 
 // Synchronous is fine
 for (var i = 0; i < numberOfUsers; i++) {
-  let token, userId
+  let token, userId, tcpSocketClient
 
   const socket = socketIO('http://localhost:4000')
   socket.on('connect', () => console.log('connected to server with socket io'))
@@ -39,6 +39,17 @@ for (var i = 0; i < numberOfUsers; i++) {
     client.on('close', function () {
       console.log('Connection closed')
     })
+
+    return client
+  }
+
+  function rotateSlowly(){
+    let x=0,y=0,z=0
+    setInterval(()=>{
+      y += 0.1
+      const transform = {rotate:[x,y,z]}
+      tcpSocketClient.write(JSON.stringify({transform})+ '<EOF>')
+    }, 1000/60)
   }
 
   function startSocketServer () {
@@ -85,8 +96,10 @@ for (var i = 0; i < numberOfUsers; i++) {
         return
       })
       .then(startSocketClient)
+      .then(_tcpSocketClient => tcpSocketClient = _tcpSocketClient)
       .then(startSocketServer)
       .then(authenticate)
+      .then(rotateSlowly)
       .catch(function (err) {
         console.error(err)
       })
