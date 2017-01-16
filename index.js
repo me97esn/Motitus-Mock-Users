@@ -23,6 +23,24 @@ for (var i = 0; i < numberOfUsers; i++) {
     }
   }
 
+  function startSocketClient () {
+    var client = new net.Socket()
+
+    // Same ip and port as in Unity code
+    client.connect(1337, '130.237.31.26', function () {
+      console.log('Connected to the tcp socket')
+      client.write('Hello, Unity! This is node.js talking.')
+    })
+
+    client.on('data', function (data) {
+      console.log('Received: ' + data)
+    })
+
+    client.on('close', function () {
+      console.log('Connection closed')
+    })
+  }
+
   function startSocketServer () {
     port++
     const socketPort = port
@@ -36,7 +54,7 @@ for (var i = 0; i < numberOfUsers; i++) {
     })
     const address = '127.0.0.1'
     server.listen(socketPort, address)
-    return {address, port:socketPort}
+    return {address, port: socketPort}
   }
 
   function authenticate ({address, port}) {
@@ -44,8 +62,8 @@ for (var i = 0; i < numberOfUsers; i++) {
     socket.emit('authenticate', {
       token,
       location,
-      tcpSocketPort:port,
-      ip:address})
+      tcpSocketPort: port,
+      ip: address})
   }
 
   function step () {
@@ -67,6 +85,7 @@ for (var i = 0; i < numberOfUsers; i++) {
         userId = body.userId
         return
       })
+      .then(startSocketClient)
       .then(startSocketServer)
       .then(authenticate)
       .catch(function (err) {
