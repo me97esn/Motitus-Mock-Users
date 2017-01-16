@@ -3,7 +3,7 @@ const socketIO = require('socket.io-client')
 
 var net = require('net')
 
-const numberOfUsers = 10
+const numberOfUsers = 1
 const latitude = 59.28832
 const longitude = 18.11787
 let port = 2000
