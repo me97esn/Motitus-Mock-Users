@@ -28,7 +28,7 @@ for (var i = 0; i < numberOfUsers; i++) {
 
     // Same ip and port as in Unity code
     client.connect(1337, '130.237.31.26', function () {
-      console.log('Connected to the tcp socket')
+      console.log('Connected to the tcp socket server in unity')
       client.write('Hello, Unity! This is node.js talking.')
     })
 
@@ -58,7 +58,6 @@ for (var i = 0; i < numberOfUsers; i++) {
   }
 
   function authenticate ({address, port}) {
-    console.log(`authenticate on address ${address} and port ${port}`)
     socket.emit('authenticate', {
       token,
       location,
