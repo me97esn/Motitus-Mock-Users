@@ -29,7 +29,6 @@ for (var i = 0; i < numberOfUsers; i++) {
     // Same ip and port as in Unity code
     client.connect(1337, '130.237.31.26', function () {
       console.log('Connected to the tcp socket server in unity')
-      client.write('Hello, Unity! This is node.js talking.')
     })
 
     client.on('data', function (data) {
@@ -47,8 +46,8 @@ for (var i = 0; i < numberOfUsers; i++) {
     let x=0,y=0,z=0
     setInterval(()=>{
       y += 0.1
-      const transform = {rotate:[x,y,z]}
-      tcpSocketClient.write(JSON.stringify({transform})+ '<EOF>')
+      const transform = {rotation:[x,y,z]}
+      tcpSocketClient.write(JSON.stringify({transform, userId})+ '<EOF>')
     }, 1000/60)
   }
 
