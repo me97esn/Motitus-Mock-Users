@@ -26,8 +26,9 @@ for (var i = 0; i < numberOfUsers; i++) {
   function startSocketClient () {
     var client = new net.Socket()
 
-    // Same ip and port as in Unity code
-    client.connect(1337, '130.237.31.26', function () {
+    // Same ip and port a in Unity code
+    // client.connect(1337, '130.237.31.26', function () {
+    client.connect(1337, '192.168.2.147', function () {
       console.log('Connected to the tcp socket server in unity')
     })
 
@@ -42,13 +43,19 @@ for (var i = 0; i < numberOfUsers; i++) {
     return client
   }
 
-  function rotateSlowly(){
-    let x=0,y=0,z=0
-    setInterval(()=>{
+  function rotateSlowly () {
+    let x = 0, y = 0, z = 0
+    setInterval(() => {
+      console.log('rotating ', userId)
       y += 0.1
-      const transform = {rotation:[x,y,z]}
-      tcpSocketClient.write(JSON.stringify({transform, userId})+ '<EOF>')
-    }, 1000/60)
+      const transform = {rotation: [x, y, z]}
+      const floatArr = new Float64Array([3.14159995, 180, 360, 89.99999999])
+      const buffer = Buffer.from(floatArr.buffer)
+      //
+      tcpSocketClient.write(buffer)
+
+      // tcpSocketClient.write(JSON.stringify({transform, userId}) + '<EOF>')
+    }, 1000 / 60 * 10)
   }
 
   function startSocketServer () {
