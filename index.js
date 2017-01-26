@@ -43,19 +43,23 @@ for (var i = 0; i < numberOfUsers; i++) {
     return client
   }
 
-  function rotateSlowly () {
-    let x = 0, y = 0, z = 0
+  function moveSlowly () {
+    const dLong = Math.random() - 0.5
+    const dLat = Math.random() - 0.5
+    let _long = longitude
+    let _lat = latitude
+
     setInterval(() => {
-      console.log('rotating ', userId)
-      y += 0.1
-      const transform = {rotation: [x, y, z]}
-      const floatArr = new Float64Array([3.14159995, 180, 360, 89.99999999])
+      _long += dLong
+      _lat += dLat
+
+      const floatArr = new Float64Array([_long, _lat])
       const buffer = Buffer.from(floatArr.buffer)
       //
       tcpSocketClient.write(buffer)
 
       // tcpSocketClient.write(JSON.stringify({transform, userId}) + '<EOF>')
-    }, 1000 / 60 * 10)
+    }, 1000)
   }
 
   function startSocketServer () {
@@ -105,7 +109,7 @@ for (var i = 0; i < numberOfUsers; i++) {
       .then(_tcpSocketClient => tcpSocketClient = _tcpSocketClient)
       .then(startSocketServer)
       .then(authenticate)
-      .then(rotateSlowly)
+      .then(moveSlowly)
       .catch(function (err) {
         console.error(err)
       })
