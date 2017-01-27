@@ -44,8 +44,8 @@ for (var i = 0; i < numberOfUsers; i++) {
   }
 
   function moveSlowly () {
-    const dLong = (Math.random() - 0.5) * 0.0001
-    const dLat = (Math.random() - 0.5) * 0.0001
+    const dLong = (Math.random() - 0.5) * 0.0000001
+    const dLat = (Math.random() - 0.5) * 0.0000001
     let _long = longitude
     let _lat = latitude
 
