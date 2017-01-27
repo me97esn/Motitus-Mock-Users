@@ -27,8 +27,8 @@ for (var i = 0; i < numberOfUsers; i++) {
     var client = new net.Socket()
 
     // Same ip and port a in Unity code
-    // client.connect(1337, '130.237.31.26', function () {
-    client.connect(1337, '192.168.2.147', function () {
+    client.connect(1337, '130.237.31.26', function () {
+    // client.connect(1337, '192.168.2.147', function () {
       console.log('Connected to the tcp socket server in unity')
     })
 
@@ -55,11 +55,11 @@ for (var i = 0; i < numberOfUsers; i++) {
 
       const floatArr = new Float64Array([_long, _lat])
       const buffer = Buffer.from(floatArr.buffer)
-      //
+      console.log('writing a message to the tcp socket ', floatArr)
       tcpSocketClient.write(buffer)
 
       // tcpSocketClient.write(JSON.stringify({transform, userId}) + '<EOF>')
-    }, 1000)
+    }, 1000 / 60 * 10)
   }
 
   function startSocketServer () {
@@ -73,7 +73,7 @@ for (var i = 0; i < numberOfUsers; i++) {
         console.log(`Received from tcp socket:${data} on port ${socketPort}`)
       })
     })
-    const address = '127.0.0.1'
+    const address = '130.237.31.26'
     server.listen(socketPort, address)
     return {address, port: socketPort}
   }
