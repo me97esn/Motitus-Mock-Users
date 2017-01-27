@@ -44,13 +44,13 @@ for (var i = 0; i < numberOfUsers; i++) {
   }
 
   function moveSlowly () {
-    const dLong = (Math.random() - 0.5) * 0.0000001
-    const dLat = (Math.random() - 0.5) * 0.0000001
+    const dLong = -0.00002
+    const dLat = 0.000002
     let _long = longitude
     let _lat = latitude
 
     setInterval(() => {
-      _long += dLong
+      // _long += dLong
       _lat += dLat
 
       const floatArr = new Float64Array([_long, _lat])
@@ -59,7 +59,7 @@ for (var i = 0; i < numberOfUsers; i++) {
       tcpSocketClient.write(buffer)
 
       // tcpSocketClient.write(JSON.stringify({transform, userId}) + '<EOF>')
-    }, 1000 / 60 * 10)
+    }, 100)
   }
 
   function startSocketServer () {
