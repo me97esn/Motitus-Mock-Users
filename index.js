@@ -70,15 +70,8 @@ for (var i = 0; i < numberOfUsers; i++) {
 
     var server = net.createServer(function (socket) {
       socket.on('data', function (chunk) {
-        try {
-          if(chunk.length == 8 * 2){
-            const floats = new Float64Array(chunk.buffer, chunk.byteOffset, chunk.byteLength / Float64Array.BYTES_PER_ELEMENT)
-            console.log('data received: ', floats)
-          }
-
-        } catch (e) {
-
-        }
+        const floats = new Float64Array(chunk.buffer, chunk.byteOffset, chunk.byteLength / Float64Array.BYTES_PER_ELEMENT)
+        console.log('data received: ', floats)
       })
     })
     server.listen(socketPort, address)
