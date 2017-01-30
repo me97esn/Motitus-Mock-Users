@@ -2,11 +2,11 @@ const rp = require('request-promise')
 const socketIO = require('socket.io-client')
 
 var net = require('net')
-
+const address = '130.237.31.63'
 const numberOfUsers = 1
 const latitude = 59.28832
 const longitude = 18.11787
-let port = 2000
+let port = 5000
 
 // Synchronous is fine
 for (var i = 0; i < numberOfUsers; i++) {
@@ -27,7 +27,7 @@ for (var i = 0; i < numberOfUsers; i++) {
     var client = new net.Socket()
 
     // Same ip and port a in Unity code
-    client.connect(1337, '130.237.31.26', function () {
+    client.connect(1337, address, function () {
     // client.connect(1337, '192.168.2.147', function () {
       console.log('Connected to the tcp socket server in unity')
     })
@@ -69,11 +69,18 @@ for (var i = 0; i < numberOfUsers; i++) {
     console.log('starting socket server on port ', socketPort)
 
     var server = net.createServer(function (socket) {
-      socket.on('data', function (data) {
-        console.log(`Received from tcp socket:${data} on port ${socketPort}`)
+      socket.on('data', function (chunk) {
+        try {
+          if(chunk.length == 8 * 2){
+            const floats = new Float64Array(chunk.buffer, chunk.byteOffset, chunk.byteLength / Float64Array.BYTES_PER_ELEMENT)
+            console.log('data received: ', floats)
+          }
+
+        } catch (e) {
+
+        }
       })
     })
-    const address = '130.237.31.26'
     server.listen(socketPort, address)
     return {address, port: socketPort}
   }
@@ -109,7 +116,7 @@ for (var i = 0; i < numberOfUsers; i++) {
       .then(_tcpSocketClient => tcpSocketClient = _tcpSocketClient)
       .then(startSocketServer)
       .then(authenticate)
-      .then(moveSlowly)
+      // .then(moveSlowly)
       .catch(function (err) {
         console.error(err)
       })
