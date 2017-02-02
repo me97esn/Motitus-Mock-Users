@@ -50,15 +50,23 @@ for (var i = 0; i < numberOfUsers; i++) {
     let _lat = latitude
 
     setInterval(() => {
-      // _long += dLong
       _lat += dLat
 
       const floatArr = new Float64Array([_long, _lat])
       const buffer = Buffer.from(floatArr.buffer)
-      console.log('writing a message to the tcp socket ', floatArr)
       tcpSocketClient.write(buffer)
+    }, 100)
+  }
 
-      // tcpSocketClient.write(JSON.stringify({transform, userId}) + '<EOF>')
+  function rotateSlowly () {
+    const dX = 0.1
+    let x = 0
+    setInterval(() => {
+      x += dX
+
+      const floatArr = new Float64Array([x, 0, 0, 0,Math.random() > 0.9 ? 1.0 : 0.0])
+      const buffer = Buffer.from(floatArr.buffer)
+      tcpSocketClient.write(buffer)
     }, 100)
   }
 
@@ -110,6 +118,7 @@ for (var i = 0; i < numberOfUsers; i++) {
       .then(startSocketServer)
       .then(authenticate)
       // .then(moveSlowly)
+      .then(rotateSlowly)
       .catch(function (err) {
         console.error(err)
       })
