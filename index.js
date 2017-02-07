@@ -44,8 +44,8 @@ for (var i = 0; i < numberOfUsers; i++) {
   }
 
   function rotateSlowly () {
-    const dLong = -0.00002
-    const dLat = 0.000002
+    const dLong = -0.0000001
+    const dLat = 0.00000001
 
     const dX = 0.1
     let x = 0
