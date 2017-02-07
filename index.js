@@ -4,8 +4,8 @@ const socketIO = require('socket.io-client')
 var net = require('net')
 const address = '130.237.31.63'
 const numberOfUsers = 1
-const latitude = 59.28832
-const longitude = 18.11787
+let latitude = 59.28832
+let longitude = 18.11787
 let port = 5000
 
 // Synchronous is fine
@@ -43,28 +43,17 @@ for (var i = 0; i < numberOfUsers; i++) {
     return client
   }
 
-  function moveSlowly () {
+  function rotateSlowly () {
     const dLong = -0.00002
     const dLat = 0.000002
-    let _long = longitude
-    let _lat = latitude
 
-    setInterval(() => {
-      _lat += dLat
-
-      const floatArr = new Float64Array([_long, _lat])
-      const buffer = Buffer.from(floatArr.buffer)
-      tcpSocketClient.write(buffer)
-    }, 100)
-  }
-
-  function rotateSlowly () {
     const dX = 0.1
     let x = 0
     setInterval(() => {
       x += dX
-
-      const floatArr = new Float64Array([x, 0, 0, 0,Math.random() > 0.9 ? 1.0 : 0.0])
+      longitude += dLong
+      latitude += dLat
+      const floatArr = new Float64Array([x, 0, 0, 0,Math.random() > 0.9 ? 1.0 : 0.0, longitude, latitude])
       const buffer = Buffer.from(floatArr.buffer)
       tcpSocketClient.write(buffer)
     }, 100)
@@ -117,7 +106,6 @@ for (var i = 0; i < numberOfUsers; i++) {
       .then(_tcpSocketClient => tcpSocketClient = _tcpSocketClient)
       .then(startSocketServer)
       .then(authenticate)
-      // .then(moveSlowly)
       .then(rotateSlowly)
       .catch(function (err) {
         console.error(err)
